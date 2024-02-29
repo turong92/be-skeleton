@@ -1,0 +1,58 @@
+server.port: 8081
+
+spring:
+  profiles:
+    group:
+#      test:
+#        - core-domain-test
+      local:
+        - core-domain-local
+      dev:
+        - core-domain-dev
+      production:
+        -core-domain-production
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+management:
+  health:
+    readinessstate:
+      enabled: true
+    livenessstate:
+      enabled: true
+#  endpoint:
+#    metrics:
+#      enabled: true
+#    prometheus:
+#      enabled: true
+    health:
+      probes:
+        enabled: true
+      show-details: always
+#  metrics:
+#    export:
+#      prometheus:
+#        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
+#        include: metrics,prometheus,health
+
+springdoc:
+  version: v1.0.0
+  title: User Api
+  description: User Api
+  swagger-ui:
+    path: /swagger-ui/
+    tags-sorter: alpha
+    operations-sorter: alpha
+    doc-expansion: none
+    display-query-params-without-oauth2: true
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8

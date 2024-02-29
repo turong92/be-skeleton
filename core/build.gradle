@@ -1,0 +1,16 @@
+dependencies {
+    compileOnly 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    annotationProcessor 'org.projectlombok:lombok'
+    /* Spring MVC */
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    /* JPA */
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+}
+
+bootJar {
+    enabled = false
+}
+jar {
+    enabled = true
+}

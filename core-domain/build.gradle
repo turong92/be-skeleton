@@ -1,0 +1,34 @@
+dependencies {
+    /* Spring MVC */
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    /* JPA */
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    /* Mysql */
+    implementation 'mysql:mysql-connector-java'
+    /* QueryDSL */
+    implementation "com.querydsl:querydsl-jpa:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    annotationProcessor("com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta")
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    /* MapStruct */
+    implementation 'org.mapstruct:mapstruct:1.4.1.Final'
+    compileOnly 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.1.Final'
+    /* Utils */
+    implementation 'org.apache.commons:commons-lang3:3.11'
+    /* p6spy */
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+bootJar {
+    enabled = false
+}
+jar {
+    enabled = true
+}

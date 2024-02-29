@@ -1,0 +1,22 @@
+dependencies {
+    /* Spring MVC */
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    /* JPA */
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    /* MapStruct */
+    implementation 'org.mapstruct:mapstruct:1.4.1.Final'
+    compileOnly 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.1.Final'
+    /* Swagger */
+    implementation 'org.springdoc:springdoc-openapi:1.5.2'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+//    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+//    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
