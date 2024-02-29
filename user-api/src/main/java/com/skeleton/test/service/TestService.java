@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.skeleton.config.error.ErrorCode;
+import com.skeleton.config.error.exception.unchecked.NotFoundException;
 import com.skeleton.domain.test.domain.QTest;
 import com.skeleton.test.mapper.TestMapper;
 import com.skeleton.util.PredicateBuilder;
@@ -82,7 +84,9 @@ public class TestService {
 	}
 
 	public Test getTestRaw(int id) {
-		return testRepository.findById(id).orElseThrow();
+
+		return testRepository.findById(id)
+				.orElseThrow(() -> new NotFoundException("Test Not Found", id, ErrorCode.NOT_FOUND));
 	}
 
 	@Transactional
