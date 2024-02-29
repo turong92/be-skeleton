@@ -68,21 +68,21 @@ public class TestController {
 	@Tag(name = TagConstant.TEST_CRUD_NAME, description = TagConstant.TEST_CRUD_DESCRIPTION)
 	@Operation(summary = "test create", description = "test create")
 	@PostMapping(path = {"/v1.0/test/crud/create"})
-	public DataResponse<Test> createTest(@Parameter(name = "str", description = "str~") @RequestParam String str) {
+	public DataResponse<TestDto> createTest(@Parameter(name = "str", description = "str~") @RequestParam String str) {
 		return Response.ok(testService.createTest(str));
 	}
 
 	@Tag(name = TagConstant.TEST_CRUD_NAME, description = TagConstant.TEST_CRUD_DESCRIPTION)
 	@Operation(summary = "test read", description = "test read")
 	@PostMapping(path = {"/v1.0/test/crud/read/{id}"})
-	public DataResponse<Test> getTest(@PathVariable(name = "id") int id) {
+	public DataResponse<TestDto> getTest(@PathVariable(name = "id") int id) {
 		return Response.ok(testService.getTest(id));
 	}
 
 	@Tag(name = TagConstant.TEST_CRUD_NAME, description = TagConstant.TEST_CRUD_DESCRIPTION)
 	@Operation(summary = "test update", description = "test update")
 	@PutMapping(path = {"/v1.0/test/crud/update"})
-	public DataResponse<Test> updateTest(@RequestBody TestDto body) {
+	public DataResponse<TestDto> updateTest(@RequestBody TestDto body) {
 		return Response.ok(testService.updateTest(body));
 	}
 

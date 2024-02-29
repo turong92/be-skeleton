@@ -3,6 +3,7 @@ package com.skeleton.test.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.skeleton.test.mapper.TestMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class TestService {
 
 	private final TestRepository testRepository;
+	private final TestMapper testMapper;
 
 	public Page<TestDto> getTestPage() {
 		Pageable pageable = PageRequest.of(0, 1, Sort.by(Sort.Order.asc("test")));
@@ -49,29 +51,35 @@ public class TestService {
 	}
 
 	@Transactional
-	public Test createTest(String str) {
-		Test test = new Test();
-		test.setStr(str);
-		return createTest(test);
+	public TestDto createTest(String str) {
+		return createTest(testMapper.toTestWithDecorator(str));
 	}
 
 	@Transactional
-	public Test createTest(Test test) {
-		return testRepository.save(test);
+	public TestDto createTest(Test test) {
+		return testMapper.toTestDto(testRepository.save(test));
 	}
 
-	public Test getTest(int id) {
+	public TestDto getTest(int id) {
+		return testMapper.toTestDto(getTestRaw(id));
+	}
+
+	public Test getTestRaw(int id) {
 		return testRepository.findById(id).orElseThrow();
 	}
 
 	@Transactional
-	public Test updateTest(TestDto body) {
-		//널체크는 없어서 Null 들어오면 그대로 박히는 방법 mapstruct 등 넣어서 Null check 해줘야함
-		Test test = getTest(body.getId());
-		test.setTestStatus(body.getTestStatus());
-		test.setStr(body.getStr());
+	public TestDto updateTest(TestDto body) {
+//		//널체크는 없어서 Null 들어오면 그대로 박히는 방법 mapstruct 등 넣어서 Null check 해줘야함
+//		Test testWithoutNullCheck = getTest(body.getId());
+//		testWithoutNullCheck.setTestStatus(body.getTestStatus());
+//		testWithoutNullCheck.setStr(body.getStr());
 
-		return testRepository.save(test);
+		// 아래 처럼 하면 널체크해서 변한 필드만 변경 가능
+		Test test = getTestRaw(body.getId());
+		testMapper.updateTestFromDto(test, body);
+
+		return testMapper.toTestDto(testRepository.save(test));
 	}
 
 	@Transactional
