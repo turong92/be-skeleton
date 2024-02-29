@@ -57,6 +57,14 @@ public class TestController {
 		return Response.ok(testService.getTestList());
 	}
 
+	@Operation(summary = "test list by status response", description = "test list by status response")
+	@GetMapping(path = {"/v1.0/test/response/list/status"})
+	public PageResponse<TestDto> getTestByStatusList(
+			@Parameter(name = "status", description = "status~") @RequestParam TestStatus status
+	) {
+		return Response.ok(testService.getTestByStatusList(status));
+	}
+
 	@Operation(summary = "test enum-param response", description = "test enum-param response")
 	@GetMapping(path = {"/v1.0/test/response/enum-param"})
 	public DataResponse<TestStatus> testEnumResponse(

@@ -2,8 +2,12 @@ package com.skeleton.test.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.skeleton.domain.test.domain.QTest;
 import com.skeleton.test.mapper.TestMapper;
+import com.skeleton.util.PredicateBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -23,7 +27,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TestService {
 
+	private final JPAQueryFactory jpaQueryFactory;
+
 	private final TestRepository testRepository;
+
 	private final TestMapper testMapper;
 
 	public Page<TestDto> getTestPage() {
@@ -44,6 +51,16 @@ public class TestService {
 		resultList.add(testDto2);
 
 		return resultList;
+	}
+
+	public List<TestDto> getTestByStatusList(TestStatus testStatus) {
+		PredicateBuilder predicate = new PredicateBuilder()
+				.where(testStatus, QTest.test.testStatus::eq);
+
+		return jpaQueryFactory.selectFrom(QTest.test)
+				.where(predicate)
+				.fetch().stream().map(testMapper::toTestDto)
+				.collect(Collectors.toList());
 	}
 
 	public TestStatus getTestStatus(TestStatus status) {
